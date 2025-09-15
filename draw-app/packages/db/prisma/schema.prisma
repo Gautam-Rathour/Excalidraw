@@ -4,10 +4,11 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
+
 
 datasource db {
   provider = "postgresql"
@@ -18,10 +19,10 @@ datasource db {
 
 model User {
   id            String      @id     @default(uuid())
-  email         String 
+  email         String      @unique
   password      String
   name          String
-  photo         String
+  photo         String?
   rooms         Room[]
   chats         Chat[]
 }
