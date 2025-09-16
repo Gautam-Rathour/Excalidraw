@@ -7,8 +7,9 @@ import { JWT_SECRET } from '@repo/backend-common/config';
 import { middleware } from "./middleware";
 import { CreateUserSchema, SigninSchema, CreateRoomSchema } from "@repo/common/types";
 
-import { prismaClient } from "@repo/db/client"
+import { prismaClient } from "@repo/db/client";
 import bcrypt from "bcrypt";
+
 
 
 
@@ -29,10 +30,11 @@ app.post("/signup", async (req, res) => {
     }
 
     try {
+        const hashedPassword = await bcrypt.hash(parsedData.data.password, 10);
         const user = await prismaClient.user.create({
             data: {
                 email: parsedData.data?.username,
-                password: parsedData.data.password,
+                password: hashedPassword,
                 name: parsedData.data.name
             }
         })
@@ -52,15 +54,15 @@ app.post("/signin", async(req, res) => {
 
     if (!parsedData.success) {
         res.json({
-            message: "Incorrect inputs" // detailed error messages
+            message: "Incorrect inputs" 
         });
+        return;
     }
 
     // TODO: compare the hashed password here
     const user = await prismaClient.user.findFirst({
         where: {
-            email: parsedData.data.username,
-            password: parsedData.data.password
+            email: parsedData.data.username
         }
     })
 
@@ -71,6 +73,17 @@ app.post("/signin", async(req, res) => {
         return;
     }
 
+       const isPasswordValid = await bcrypt.compare(
+        parsedData.data.password, // plain password from user
+        user.password             // hashed password from DB
+    );
+
+    if (!isPasswordValid) {
+        res.status(403).json({
+            message: "Not authorized"
+        });
+        return;
+    }
 
     const token = jwt.sign({
         userId: user?.id
@@ -95,16 +108,23 @@ app.post("/room", middleware, async(req, res) => {
     // @ts-ignore: TODO: Fix this
     const userId = req.userId;
 
-    await prismaClient.room.create({
-        data: {
-            slug: parsedData.data.name,
-            adminId: userId
-        }
-    })
+    try {
+        const room = await prismaClient.room.create({
+            data: {
+                slug: parsedData.data.name,
+                adminId: userId
+            }
+        })
 
-    res.json({
-        roomId: 123
-    })
+        res.json({
+            roomId: room.id
+        })
+    } catch(e) {
+        res.status(411).json({
+            message: "Room already exists with this name"
+        })
+    }
+    
 })
 
 app.listen(3001);
