@@ -21,6 +21,7 @@ export function ChatRoomClient({
     useEffect(() => {
         if(socket && !loading) {
 
+            alert("join room message sent");
             socket.send(JSON.stringify({
                 type: "join_room",
                 roomId: id
