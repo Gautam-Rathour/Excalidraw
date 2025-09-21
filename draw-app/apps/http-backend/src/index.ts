@@ -44,7 +44,6 @@ app.post("/signup", async (req, res) => {
     }
 })
 
-
 app.post("/signin", async(req, res) => {
     const parsedData = SigninSchema.safeParse(req.body);
 
@@ -90,7 +89,6 @@ app.post("/signin", async(req, res) => {
     })
 })
 
-
 app.post("/room", middleware, async(req, res) => {
 
     const parsedData = CreateRoomSchema.safeParse(req.body);
@@ -123,7 +121,6 @@ app.post("/room", middleware, async(req, res) => {
     
 })
 
-
 app.get("/chats/:roomId", async(req, res) => {
     try {
         const roomId = Number(req.params.roomId);
@@ -149,7 +146,6 @@ app.get("/chats/:roomId", async(req, res) => {
         })
     }
 })
-
 
 app.get("/room/:slug", async (req, res) => {
     const slug = req.params.slug;
