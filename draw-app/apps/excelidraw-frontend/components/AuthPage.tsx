@@ -1,5 +1,7 @@
 
 
+
+
 "use client";
 
 export function AuthPage({isSignin}: {
@@ -10,18 +12,19 @@ export function AuthPage({isSignin}: {
             <div className="p-2">
                 <input type="text" placeholder="Email"></input>
             </div>
-
             <div className="p-2">
-                <input type="password" placeholder="Password" ></input>
+                
             </div>
 
-
-            <div className="p-2">
-                <button onClick={() => {
+            <div className="pt-2">
+                <button className="bg-red-200 rounded p-2" onClick={() => {
 
                 }}>{isSignin ? "Sign in" : "Sign up"}</button>
             </div>
-            
         </div>
     </div>
 }
+
+
+
+
