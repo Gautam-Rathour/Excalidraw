@@ -1,5 +1,7 @@
 
 
+
+
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { ChatRoom } from "../../../components/ChatRoom";
@@ -11,7 +13,7 @@ async function getRoomId(slug: string) {
 }
 
 
-export default async function ChatRoom1({
+export default async function({
     params
 }: {
     params: {
@@ -21,7 +23,10 @@ export default async function ChatRoom1({
     const slug = (await params).slug;
     const roomId = await getRoomId(slug);
 
-    return <ChatRoom id={roomId}></ChatRoom>
+    // return <ChatRoom id={roomId}></ChatRoom>
+    return <div>
+        
+    </div>
 }
 
 
