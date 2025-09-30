@@ -1,27 +1,36 @@
-import { type JSX } from "react";
+
+
+
+
+import { type ReactNode } from "react";
 
 export function Card({
   className,
-  title,
   children,
+  title,
   href,
 }: {
   className?: string;
-  title: string;
-  children: React.ReactNode;
-  href: string;
-}): JSX.Element {
+  title?: string;   // <-- make optional
+  children: ReactNode;
+  href?: string;    // <-- make optional
+}) {
+  // If href is passed, render <a>, else just <div>
+  const Wrapper = href ? "a" : "div";
+
   return (
-    <a
+    <Wrapper
       className={className}
-      href={`${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"`}
-      rel="noopener noreferrer"
-      target="_blank"
+      href={href ? `${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo` : undefined}
+      rel={href ? "noopener noreferrer" : undefined}
+      target={href ? "_blank" : undefined}
     >
-      <h2>
-        {title} <span>-&gt;</span>
-      </h2>
-      <p>{children}</p>
-    </a>
+      {title && (
+        <h2>
+          {title} <span>-&gt;</span>
+        </h2>
+      )}
+      {children}
+    </Wrapper>
   );
 }
