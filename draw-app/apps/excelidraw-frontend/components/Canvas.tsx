@@ -6,8 +6,10 @@ import { useEffect, useRef } from "react";
 
 
 export function Canvas({
-    roomId
+    roomId,
+    socket
 }: {
+    socket: WebSocket;
     roomId: string;
 }) {
     const canvasRef = useRef<HTMLCanvasElement>(null);

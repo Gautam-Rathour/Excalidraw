@@ -34,6 +34,6 @@ export function RoomCanvas({roomId}: {roomId: string}) {
 
     return <div>
         <Canvas />
-        <canvas ref={canvasRef} width={1080} height={1080}></canvas>
+        <canvas ref={canvasRef} width={2000} height={1000}></canvas>
     </div>
 }
